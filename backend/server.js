@@ -2,9 +2,10 @@ const express = require('express');
 const mysql = require('mysql2');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+require('dotenv').config(); // For environment variables
 
 const app = express();
-const port = 5000;
+const port = process.env.PORT || 5000; // Use PORT from .env file or default to 5000
 
 // Middleware
 app.use(cors());
@@ -12,10 +13,10 @@ app.use(bodyParser.json());
 
 // MySQL database connection
 const db = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',  // Replace with your MySQL username
-    password: 'pass@123',  // Replace with your MySQL password
-    database: 'flashcard_app'
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME
 });
 
 db.connect(err => {
@@ -27,7 +28,6 @@ db.connect(err => {
 });
 
 // Routes
-// Get all flashcards
 app.get('/flashcards', (req, res) => {
     db.query('SELECT * FROM flashcards', (err, results) => {
         if (err) {
@@ -37,7 +37,6 @@ app.get('/flashcards', (req, res) => {
     });
 });
 
-// Get a flashcard by ID
 app.get('/flashcards/:id', (req, res) => {
     const id = req.params.id;
     db.query('SELECT * FROM flashcards WHERE id = ?', [id], (err, results) => {
@@ -48,7 +47,6 @@ app.get('/flashcards/:id', (req, res) => {
     });
 });
 
-// Add a new flashcard
 app.post('/flashcards', (req, res) => {
     const { question, answer } = req.body;
     db.query('INSERT INTO flashcards (question, answer) VALUES (?, ?)', [question, answer], (err, results) => {
@@ -59,7 +57,6 @@ app.post('/flashcards', (req, res) => {
     });
 });
 
-// Update a flashcard
 app.put('/flashcards/:id', (req, res) => {
     const id = req.params.id;
     const { question, answer } = req.body;
@@ -71,7 +68,6 @@ app.put('/flashcards/:id', (req, res) => {
     });
 });
 
-// Delete a flashcard
 app.delete('/flashcards/:id', (req, res) => {
     const id = req.params.id;
     db.query('DELETE FROM flashcards WHERE id = ?', [id], (err, results) => {
