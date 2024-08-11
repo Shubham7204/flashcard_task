@@ -27,7 +27,7 @@ const Home = () => {
     };
 
     const handleAddFlashcard = () => {
-        navigate('/add'); // Adjust this path to match your route for adding flashcards
+        navigate('/add'); 
     };
 
     if (loading) return <div className="flex justify-center items-center h-screen">Loading...</div>;

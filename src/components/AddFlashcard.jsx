@@ -23,7 +23,6 @@ const AddFlashcard = () => {
 
     return (
         <div className="p-6 space-y-6">
-            {/* Add Flashcard Form */}
             <Card className="shadow-md rounded-lg">
                 <CardHeader className="rounded-t-lg">
                     <CardTitle className="text-2xl font-bold">Add a Flashcard</CardTitle>
@@ -69,7 +68,6 @@ const AddFlashcard = () => {
                 </CardContent>
             </Card>
 
-            {/* Flashcard List */}
             <div>
                 <FlashcardList />
             </div>
